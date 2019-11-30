@@ -2,6 +2,7 @@
     <div class="root">
         <div class="line"></div>
         <div class="triangle"></div>
+        <div class="danger"></div>
     </div>
 </template>
 
@@ -36,6 +37,15 @@
         position: absolute;
         bottom: 70px;
         border-radius: 5px;
+        /*transform: rotate(0deg);*/
+    }
+
+    .danger {
+        width: 378px;
+        height: 2px;
+        margin: 0 auto;
+        background: rgba(255, 0, 0, .33);
+        border-radius: 2px;
     }
 
 </style>
