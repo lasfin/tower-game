@@ -4,8 +4,12 @@
     <GameControls />
 
     <GameField>
-      <Tower/>
-      <Blocks/>
+      <Tower v-if="gameStatuses().gameOver !== this.gameStatus"/>
+      <Blocks v-if="gameStatuses().gameOver !== this.gameStatus"/>
+
+      <Loader v-if="gameStatuses().gameOver === this.gameStatus"/>
+      <Loader v-if="gameStatuses().gameOver === this.gameStatus"/>
+
     </GameField>
 
     <KeyPressListener/>
@@ -18,15 +22,28 @@ import GameField from './components/GameField'
 import Tower from './components/Tower'
 import Blocks from './components/Blocks'
 import KeyPressListener from './components/KeyPressListener'
+import { gameStatuses } from './helpers'
+import Loader from "./components/Loader";
 
 export default {
   name: 'app',
   components: {
+    Loader,
     GameField,
     GameControls,
     Tower,
     Blocks,
     KeyPressListener
+  },
+  computed: {
+    gameStatus () {
+      return this.$store.getters.gameStatus;
+    }
+  },
+  methods: {
+    gameStatuses () {
+      return gameStatuses
+    }
   }
 }
 </script>

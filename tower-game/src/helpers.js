@@ -1,7 +1,8 @@
 export const gameStatuses = {
     initial: 'initial',
     paused: 'paused',
-    inProgress: 'inProgress'
+    inProgress: 'inProgress',
+    gameOver: 'gameOver'
 };
 
 export const allTypes = ['square', 'triangle', 'circle'];

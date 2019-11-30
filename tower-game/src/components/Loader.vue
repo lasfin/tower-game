@@ -1,5 +1,9 @@
 <template>
-    <div class="loader"></div>
+    <div class="loader-wrapper">
+        <div class="loader">
+            Game over
+        </div>
+    </div>
 </template>
 
 <script>
@@ -9,10 +13,17 @@
 </script>
 
 <style scoped>
+    .loader-wrapper {
+        width: 4em;
+        height: 4em;
+        margin: auto;
+        padding-top: 50px;
+    }
     .loader {
+        margin-top: 130px;
         position: relative;
-        width: 2em;
-        height: 2em;
+        width: 4em;
+        height: 4em;
         border: 3px solid #3cefff;
         overflow: hidden;
         animation: spin 3s ease infinite;

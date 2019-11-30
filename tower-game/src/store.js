@@ -20,14 +20,15 @@ export default new Vuex.Store({
     },
     getters: {
         angle: state => state.angle,
+        gameStatus: state => state.gameStatus,
 
         generatedFigures: state => state.figures,
-        figuresInProgress: state => state.figures.filter(f => new Date() - f.created < state.secondsBeforeNew),
-        figuresOnEarth: state =>  state.figures.filter(f => new Date() - f.created >= state.secondsBeforeNew),
+        figuresInProgress: state => state.figures.filter(f => new Date() - f.created < state.secondsBeforeNew - 100),
+        figuresOnEarth: state =>  state.figures.filter(f => new Date() - f.created >= state.secondsBeforeNew - 100),
 
         userFigures: state => state.userFigures,
-        userFiguresInProgress: state => state.userFigures.filter(f => new Date() - f.created < state.secondsBeforeNew),
-        userFiguresOnEarth: state =>  state.userFigures.filter(f => new Date() - f.created >= state.secondsBeforeNew),
+        userFiguresInProgress: state => state.userFigures.filter(f => new Date() - f.created < state.secondsBeforeNew - 100),
+        userFiguresOnEarth: state =>  state.userFigures.filter(f => new Date() - f.created >= state.secondsBeforeNew - 100),
 
     },
     mutations: {
@@ -101,11 +102,7 @@ function changeGameStatus(state, newStatus) {
 
     // stop game
     if (newStatus === gameStatuses.initial) {
-        clearInterval(state.newBlockInterval);
-        clearTimeout(state.resumeTimeout);
-        state.figures = [];
-        state.userFigures = [];
-        state.angle = 0;
+        resetGame(state);
     }
 
     state.gameStatus = newStatus;
@@ -121,8 +118,8 @@ function setTimer(state) {
 function addFigures(state) {
     // check for game over by weight
 
-    let [F1, F2] = [10, 10];
-    const MAGIC_PHYSICS = 2.25;
+    let [F1, F2] = [5, 5];
+    const MAGIC_PHYSICS = 3.5;
 
     // check for game over by angle
     // very suspicious physics, yes
@@ -135,6 +132,11 @@ function addFigures(state) {
     });
 
     state.angle = (F1 - F2) * MAGIC_PHYSICS;
+
+    if (Math.abs(state.angle) > 30) {
+        state.gameStatus = gameStatuses.gameOver;
+        resetGame(state)
+    }
 
     const userFigure = generateNewFigure();
 
@@ -150,4 +152,13 @@ function generateNewFigure() {
         weight: randomInteger(1, 10),
         positionX: randomInteger(1, 100)
     }
+}
+
+function resetGame(state) {
+    clearInterval(state.newBlockInterval);
+    clearTimeout(state.resumeTimeout);
+
+    state.figures = [];
+    state.userFigures = [];
+    state.angle = 0;
 }
