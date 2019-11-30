@@ -19,10 +19,15 @@ export default new Vuex.Store({
     },
     getters: {
         angle: state => state.angle,
+
         generatedFigures: state => state.figures,
+        figuresInProgress: state => state.figures.filter(f => new Date() - f.created < state.secondsBeforeNew),
+        figuresOnEarth: state =>  state.figures.filter(f => new Date() - f.created >= state.secondsBeforeNew),
+
         userFigures: state => state.userFigures,
-        figuresInProgress: state => state.figures.filter((f) => new Date() - f.created < state.secondsBeforeNew),
-        figuresOnEarth: state =>  state.figures.filter(f => new Date() - f.created >= state.secondsBeforeNew )
+        userFiguresInProgress: state => state.userFigures.filter(f => new Date() - f.created < state.secondsBeforeNew),
+        userFiguresOnEarth: state =>  state.userFigures.filter(f => new Date() - f.created >= state.secondsBeforeNew),
+
     },
     mutations: {
         changeGameStatus,
@@ -38,25 +43,34 @@ export default new Vuex.Store({
 })
 
 
-
 function changeGameStatus(state, newStatus) {
+    if (newStatus === state.gameStatus) {
+        return;
+    }
+    if ((newStatus === gameStatuses.paused || newStatus === gameStatuses.initial) && state.gameStatus === gameStatuses.initial ) {
+        return;
+    }
 
     // start game
     if (newStatus === gameStatuses.inProgress && state.gameStatus === gameStatuses.initial) {
-        state.figures.push(generateNewFigure());
+        addFigures(state);
         setTimer(state);
     }
 
     // resume game
     if (newStatus === gameStatuses.inProgress && state.gameStatus === gameStatuses.paused) {
+
         // item in progress
         state.figures[state.figures.length - 1].created = new Date(Date.now() - state.lastItemTime);
+        state.userFigures[state.userFigures.length - 1].created = new Date(Date.now() - state.lastItemTime);
+
         if (state.resumeTimeout) {
             clearTimeout(state.resumeTimeout);
-            state.resumeTimeout = 0;
+            state.resumeTimeout = null;
         }
+
         state.resumeTimeout = setTimeout(() => {
-            state.figures.push(generateNewFigure());
+            addFigures(state);
             setTimer(state)
         }, state.lastItemTime)
 
@@ -66,12 +80,15 @@ function changeGameStatus(state, newStatus) {
     if (newStatus === gameStatuses.paused && state.gameStatus === gameStatuses.inProgress) {
         state.lastItemTime = Math.ceil(new Date() - state.figures[state.figures.length - 1].created);
         clearInterval(state.newBlockInterval);
+        clearTimeout(state.resumeTimeout);
     }
 
     // stop game
     if (newStatus === gameStatuses.initial) {
         clearInterval(state.newBlockInterval);
+        clearTimeout(state.resumeTimeout);
         state.figures = [];
+        state.userFigures = [];
     }
 
     state.gameStatus = newStatus;
@@ -80,8 +97,13 @@ function changeGameStatus(state, newStatus) {
 
 function setTimer(state) {
     state.newBlockInterval = setInterval(() => {
-        state.figures.push(generateNewFigure());
+        addFigures(state);
     }, state.secondsBeforeNew);
+}
+
+function addFigures(state) {
+    state.userFigures.push(generateNewFigure());
+    state.figures.push(generateNewFigure());
 }
 
 function generateNewFigure() {

@@ -1,10 +1,32 @@
 <template>
-    <div class="wrapper-blocks">
-        <div id="example-1">
-            <div class="test"></div>
+    <div>
+        <div class="wrapper-user-blocks">
+            <Position
+                    v-for="figure in userFiguresInProgress"
+                    v-bind:key="figure.created.toISOString() + componentKey"
+                    v-bind:positionX="figure.positionX"
+                    v-bind:created="figure.created"
+            >
+                <CircleF v-if="figure.type === figuresTypes().circle">{{figure.weight}}</CircleF>
+                <TriangleF v-if="figure.type === figuresTypes().triangle">{{figure.weight}}</TriangleF>
+                <SquareF v-if="figure.type === figuresTypes().square">{{figure.weight}}</SquareF>
+            </Position>
 
             <Position
-                v-for="(figure) in figuresInProgress"
+                    v-for="figure in userFiguresOnEarth"
+                    v-bind:key="figure.created.toISOString()"
+                    v-bind:positionX="figure.positionX"
+                    v-bind:created="figure.created"
+            >
+                <CircleF v-if="figure.type === figuresTypes().circle">{{figure.weight}}</CircleF>
+                <TriangleF v-if="figure.type === figuresTypes().triangle">{{figure.weight}}</TriangleF>
+                <SquareF v-if="figure.type === figuresTypes().square">{{figure.weight}}</SquareF>
+            </Position>
+        </div>
+
+        <div class="wrapper-blocks">
+            <Position
+                v-for="figure in figuresInProgress"
                 v-bind:key="figure.created.toISOString() + componentKey"
                 v-bind:positionX="figure.positionX"
                 v-bind:created="figure.created"
@@ -15,7 +37,7 @@
             </Position>
 
             <Position
-                v-for="(figure) in figuresOnEarth"
+                v-for="figure in figuresOnEarth"
                 v-bind:key="figure.created.toISOString()"
                 v-bind:positionX="figure.positionX"
                 v-bind:created="figure.created"
@@ -63,14 +85,17 @@
             }, 30)
         },
         computed : {
-            figures () {
-                return this.$store.getters.generatedFigures;
-            },
             figuresInProgress () {
                 return this.$store.getters.figuresInProgress;
             },
             figuresOnEarth () {
                 return this.$store.getters.figuresOnEarth;
+            },
+            userFiguresInProgress () {
+                return this.$store.getters.userFiguresInProgress;
+            },
+            userFiguresOnEarth () {
+                return this.$store.getters.userFiguresOnEarth;
             },
             gameStatus () {
                 return this.$store.state.gameStatus
@@ -83,6 +108,11 @@
     .wrapper-blocks {
         position: absolute;
         left: 50%;
+        width: 45%;
+        height: 525px;
+    }
+    .wrapper-user-blocks {
+        position: absolute;right: 50%;
         width: 45%;
         height: 525px;
     }
