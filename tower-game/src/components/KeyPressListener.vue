@@ -7,8 +7,6 @@
         name: "KeyPressListener",
         mounted() {
             document.addEventListener('keydown', function(e) {
-                console.log(e);
-
                 if (e.key === 'ArrowLeft' || e.which === 65) {
                     this.$store.commit('changeCurrentPosition', 'left');
                 }

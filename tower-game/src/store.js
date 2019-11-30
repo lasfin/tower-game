@@ -88,7 +88,7 @@ function changeGameStatus(state, newStatus) {
         state.resumeTimeout = setTimeout(() => {
             addFigures(state);
             setTimer(state)
-        }, state.lastItemTime)
+        }, state.secondsBeforeNew - state.lastItemTime)
 
     }
 
