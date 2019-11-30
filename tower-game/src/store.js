@@ -8,14 +8,15 @@ export default new Vuex.Store({
     state: {
         angle: 0,
         gameStatus: gameStatuses.initial,
-        increaseTime: 20,
+
         secondsBeforeNew: 5 * 1000,
+
         newBlockInterval: null,
-        gameInterval: null,
-        timerPauseTime: null,
         resumeTimeout: null,
+
         figures: [],
-        userFigures: []
+        userFigures: [],
+        lastFigurePositionX: 0,
     },
     getters: {
         angle: state => state.angle,
@@ -31,14 +32,29 @@ export default new Vuex.Store({
     },
     mutations: {
         changeGameStatus,
+        changeCurrentPosition(state, direction) {
+            if (state.gameStatus !== gameStatuses.inProgress) {
+                return;
+            }
+
+            const lastUserFigure = state.userFigures[state.userFigures.length - 1];
+            if (direction === 'left') {
+                lastUserFigure.positionX -= 5;
+            } else {
+                lastUserFigure.positionX += 5;
+            }
+            if (lastUserFigure.positionX < 0) {
+                lastUserFigure.positionX = 0;
+            }
+            if (lastUserFigure.positionX > 100) {
+                lastUserFigure.positionX = 100;
+            }
+        }
     },
     actions: {
         changeGameStatus: (context, payload) => {
             context.commit('changeGameStatus', payload)
         },
-        saveGameInterval: (context, payload) => {
-            context.commit('saveGameInterval', payload)
-        }
     }
 })
 
@@ -102,7 +118,10 @@ function setTimer(state) {
 }
 
 function addFigures(state) {
-    state.userFigures.push(generateNewFigure());
+    const userFigure = generateNewFigure();
+
+    state.userFigures.push(userFigure);
+    state.lastFigurePositionX = userFigure.positionX;
     state.figures.push(generateNewFigure());
 }
 

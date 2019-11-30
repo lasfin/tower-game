@@ -1,10 +1,14 @@
 <template>
   <div id="app">
+
     <GameControls />
+
     <GameField>
       <Tower/>
       <Blocks/>
     </GameField>
+
+    <KeyPressListener/>
   </div>
 </template>
 
@@ -13,6 +17,7 @@ import GameControls from './components/GameControls'
 import GameField from './components/GameField'
 import Tower from './components/Tower'
 import Blocks from './components/Blocks'
+import KeyPressListener from './components/KeyPressListener'
 
 export default {
   name: 'app',
@@ -20,7 +25,8 @@ export default {
     GameField,
     GameControls,
     Tower,
-    Blocks
+    Blocks,
+    KeyPressListener
   }
 }
 </script>
