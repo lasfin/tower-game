@@ -1,28 +1,42 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <GameControls />
+    <GameField />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import GameControls from './components/GameControls.vue'
+import GameField from './components/GameField.vue'
 
 export default {
   name: 'app',
   components: {
-    HelloWorld
+    GameField,
+    GameControls
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+
+:root {
+    --text-color: #33476B;
+    --text-color-light: #9EB0C4;
+    --radius: 1.2em;
+    --shadow-color: #ccdbe8;
+    --border-width: -1px;
+    --mono-font: monaco;
+    --body-font: -apple-system, BlinkMacSystemFont, San Francisco, Helvetica Neue, Helvetica, Ubuntu, Roboto, Noto, Segoe UI, Arial, sans-serif;
+    --padding-small: .75em;
+    --padding-medium: 1.25em;
+    --padding-large: 2em;
 }
+
+body {
+    background-image: linear-gradient(to right, #E9F0F8 0%, #DEE7F4 100%);
+    font-family: var(--body-font);
+    color: var(--text-color);
+}
+
 </style>
