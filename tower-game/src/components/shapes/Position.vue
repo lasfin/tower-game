@@ -7,10 +7,21 @@
 <script>
     export default {
         name: "Position",
-        props: ['positionX'],
+        props: ['positionX', 'created', 'componentKey'],
         computed: {
             style () {
-                return 'left: ' + `calc(${this.positionX}% - 25px);`;
+                const diff = new Date() - this.created;
+                const fullTime = 5000; // pass as prop
+
+                const k = diff / fullTime;
+
+                const left = `calc(${this.positionX}% - 25px);`;
+                const top = diff > fullTime ? `calc(100% - 25px);` : `calc(${100 * k}% - 25px);`;
+
+                return `
+                    left: ${left}
+                    top: ${top}
+                `;
             }
         },
     }

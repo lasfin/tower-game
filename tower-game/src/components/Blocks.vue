@@ -1,10 +1,13 @@
 <template>
     <div class="wrapper-blocks">
         <div id="example-1">
+            <div class="test"></div>
             <Position
-                v-for="figure in figures"
-                v-bind:key="figure.created.toISOString()"
+                v-for="(figure) in figures"
+                v-bind:key="figure.created.toISOString() + componentKey"
                 v-bind:positionX="figure.positionX"
+                v-bind:created="figure.created"
+                v-bind:componentKey="componentKey"
             >
                 <CircleF v-if="figure.type === figuresTypes().circle">{{figure.weight}}</CircleF>
                 <TriangleF v-if="figure.type === figuresTypes().triangle">{{figure.weight}}</TriangleF>
@@ -30,8 +33,22 @@
             TriangleF,
             Position
         },
+        data() {
+           return {
+               componentKey: 0
+           }
+        },
         methods: {
             figuresTypes: () => figuresTypes,
+            forceRerender() {
+                this.componentKey += 1;
+            }
+        },
+        mounted() {
+            // todo: check game status
+            window.setInterval(() => {
+                window.requestAnimationFrame(this.forceRerender);
+            }, 400)
         },
         computed : {
             figures () {
@@ -44,8 +61,8 @@
 <style scoped>
     .wrapper-blocks {
         position: absolute;
-        right: 0;
-        width: 50%;
-        height: 100%;
+        left: 50%;
+        width: 45%;
+        height: 525px;
     }
 </style>
