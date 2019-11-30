@@ -3,9 +3,24 @@
         <div class="shadow from topMargin game-control">
             <div class="inline start">
                 <div class="card-amount">
-                    <button class="small shadowless shadow fromNumber float">Start</button>
-                    <button class="small shadowless shadow fromNumber float">Pause</button>
-                    <button class="small shadowless shadow fromNumber float">Stop</button>
+                    <button
+                        class="small shadowless shadow fromNumber float"
+                        v-on:click="handleButtonClick(gameStatuses().inProgress)"
+                    >
+                        Start
+                    </button>
+                    <button
+                        class="small shadowless shadow fromNumber float"
+                        v-on:click="handleButtonClick(gameStatuses().paused)"
+                    >
+                        Pause
+                    </button>
+                    <button
+                        class="small shadowless shadow fromNumber float"
+                        v-on:click="handleButtonClick(gameStatuses().initial)"
+                    >
+                        Stop
+                    </button>
                 </div>
             </div>
         </div>
@@ -13,8 +28,16 @@
 </template>
 
 <script>
+    import { gameStatuses } from '../helpers';
+
     export default {
-        name: "GameControls"
+        name: "GameControls",
+        methods: {
+            gameStatuses: () => gameStatuses,
+            handleButtonClick (index) {
+                this.$store.commit('changeGameStatus', gameStatuses[parseInt(index, 10)]);
+            }
+        }
     }
 </script>
 
