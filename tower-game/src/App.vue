@@ -3,6 +3,7 @@
     <GameControls />
     <GameField>
       <Tower/>
+      <Blocks/>
     </GameField>
   </div>
 </template>
@@ -11,13 +12,15 @@
 import GameControls from './components/GameControls.vue'
 import GameField from './components/GameField.vue'
 import Tower from './components/Tower.vue'
+import Blocks from './components/Blocks.vue'
 
 export default {
   name: 'app',
   components: {
     GameField,
     GameControls,
-    Tower
+    Tower,
+    Blocks
   }
 }
 </script>

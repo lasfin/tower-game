@@ -34,8 +34,8 @@
         name: "GameControls",
         methods: {
             gameStatuses: () => gameStatuses,
-            handleButtonClick (index) {
-                this.$store.commit('changeGameStatus', gameStatuses[parseInt(index, 10)]);
+            handleButtonClick (status) {
+                this.$store.commit('changeGameStatus', status);
             }
         }
     }
@@ -109,8 +109,8 @@
         content: ' ';
         display: block;
         position: absolute;
-        top: 0px;
-        left: 0px;
+        top: 0;
+        left: 0;
         width: 100%;
         height: 100%;
         border-radius: calc(var(--radius) - 1px);
