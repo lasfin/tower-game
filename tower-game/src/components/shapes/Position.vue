@@ -7,7 +7,7 @@
 <script>
     export default {
         name: "Position",
-        props: ['positionX', 'created', 'componentKey'],
+        props: ['positionX', 'created'],
         computed: {
             style () {
                 const diff = new Date() - this.created;
@@ -17,6 +17,8 @@
 
                 const left = `calc(${this.positionX}% - 25px);`;
                 const top = diff > fullTime ? `calc(100% - 25px);` : `calc(${100 * k}% - 25px);`;
+
+                // it's better to use translate with transition but time
 
                 return `
                     left: ${left}
