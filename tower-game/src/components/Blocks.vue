@@ -19,7 +19,7 @@
 </template>
 
 <script>
-    import { figuresTypes } from '../helpers';
+    import { figuresTypes, gameStatuses } from '../helpers';
     import CircleF from './shapes/CircleF';
     import SquareF from './shapes/SquareF';
     import TriangleF from './shapes/TriangleF';
@@ -47,13 +47,18 @@
         mounted() {
             // todo: check game status
             window.setInterval(() => {
-                window.requestAnimationFrame(this.forceRerender);
+                if (this.gameStatus === gameStatuses.inProgress ) {
+                    window.requestAnimationFrame(this.forceRerender);
+                }
             }, 400)
         },
         computed : {
             figures () {
                 return this.$store.getters.generatedFigures;
             },
+            gameStatus () {
+                return this.$store.state.gameStatus
+            }
         },
     }
 </script>

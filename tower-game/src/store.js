@@ -10,6 +10,7 @@ export default new Vuex.Store({
         gameStatus: '',
         increaseTime: 20,
         secondsBeforeNew: 5 * 1000,
+        newBlockInterval: null,
         gameInterval: null,
         timerStartedTime: null,
         timerPauseTime: null,
@@ -28,6 +29,9 @@ export default new Vuex.Store({
         changeGameStatus: (context, payload) => {
             context.commit('changeGameStatus', payload)
         },
+        saveGameInterval: (context, payload) => {
+            context.commit('saveGameInterval', payload)
+        }
     }
 })
 
@@ -41,26 +45,24 @@ function changeGameStatus(state, newStatus) {
         state.timerStartedTime = new Date();
         state.figures.push(generateNewFigure());
         // start interval
-        state.gameInterval = setInterval(() => {
+        state.newBlockInterval = setInterval(() => {
             state.figures.push(generateNewFigure());
-
-            console.log(state.figures);
-
         }, state.secondsBeforeNew);
     }
     // if (newStatus === gameStatuses.inProgress && state.timerPauseTime) {
-    //     state.gameInterval = setInterval(() => {
+    //     state.newBlockInterval = setInterval(() => {
     //         console.log('new item should appears'); // timeout
     //     }, state.secondsBeforeNew);
     //     state.timerPauseTime = null;
     // }
-    if (newStatus === gameStatuses.initial && state.gameInterval) {
-        clearInterval(state.gameInterval);
+    if (newStatus === gameStatuses.initial && state.newBlockInterval) {
+        clearInterval(state.newBlockInterval);
+        state.figures = [];
     }
-    // if (newStatus === gameStatuses.paused) {
-    //     state.pauseTime = Math.ceil(new Date() - state.timerStartedTime);
-    //     console.log(Math.abs(state.timerStartedTime / (5 * 1000)));
-    // }
+    if (newStatus === gameStatuses.paused) {
+        state.pauseTime = Math.ceil(new Date() - state.timerStartedTime);
+        clearInterval(state.newBlockInterval);
+    }
 }
 
 
