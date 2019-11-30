@@ -9,10 +9,10 @@
 </template>
 
 <script>
-import GameControls from './components/GameControls.vue'
-import GameField from './components/GameField.vue'
-import Tower from './components/Tower.vue'
-import Blocks from './components/Blocks.vue'
+import GameControls from './components/GameControls'
+import GameField from './components/GameField'
+import Tower from './components/Tower'
+import Blocks from './components/Blocks'
 
 export default {
   name: 'app',

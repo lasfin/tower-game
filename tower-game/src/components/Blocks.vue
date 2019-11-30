@@ -1,15 +1,16 @@
 <template>
-    <div class="wrapper">
+    <div class="wrapper-blocks">
         <div id="example-1">
-            <div
-                class="default-figure"
+            <Position
                 v-for="figure in figures"
                 v-bind:key="figure.created.toISOString()"
+                v-bind:positionX="figure.positionX"
             >
                 <CircleF v-if="figure.type === figuresTypes().circle">{{figure.weight}}</CircleF>
                 <TriangleF v-if="figure.type === figuresTypes().triangle">{{figure.weight}}</TriangleF>
                 <SquareF v-if="figure.type === figuresTypes().square">{{figure.weight}}</SquareF>
-            </div>
+            </Position>
+
         </div>
     </div>
 </template>
@@ -19,13 +20,15 @@
     import CircleF from './shapes/CircleF';
     import SquareF from './shapes/SquareF';
     import TriangleF from './shapes/TriangleF';
+    import Position from './shapes/Position';
 
     export default {
         name: "Blocks",
         components: {
             CircleF,
             SquareF,
-            TriangleF
+            TriangleF,
+            Position
         },
         methods: {
             figuresTypes: () => figuresTypes,
@@ -39,7 +42,7 @@
 </script>
 
 <style scoped>
-    .wrapper {
+    .wrapper-blocks {
         position: absolute;
         right: 0;
         width: 50%;
