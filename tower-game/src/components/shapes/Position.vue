@@ -18,7 +18,7 @@
                 const left = `calc(${this.positionX}% - 25px);`;
                 const top = diff > fullTime ? `calc(100% - 25px);` : `calc(${100 * k}% - 25px);`;
 
-                // it's better to use translate with transition but time
+                // it's better to use translate with transition for animation, but time ¯\_(ツ)_/¯
 
                 return `
                     left: ${left}

@@ -82,7 +82,7 @@
                 if (this.gameStatus === gameStatuses.inProgress ) {
                     window.requestAnimationFrame(this.forceRerender);
                 }
-            }, 30)
+            }, 0)
         },
         computed : {
             figuresInProgress () {
