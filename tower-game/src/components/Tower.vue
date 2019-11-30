@@ -1,6 +1,6 @@
 <template>
     <div class="root">
-        <div class="line"></div>
+        <div class="line" :style="lineStyle"></div>
         <div class="triangle"></div>
         <div class="danger"></div>
     </div>
@@ -8,7 +8,16 @@
 
 <script>
     export default {
-        name: "Tower"
+        name: "Tower",
+        computed: {
+            lineStyle () {
+                const deg = this.$store.getters.angle;
+
+                return `
+                    transform: rotate(${-deg}deg)
+                `;
+            }
+        },
     }
 </script>
 
@@ -37,7 +46,7 @@
         position: absolute;
         bottom: 70px;
         border-radius: 5px;
-        /*transform: rotate(0deg);*/
+        transition: all 2s ease-in 0s;
     }
 
     .danger {

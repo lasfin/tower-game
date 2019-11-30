@@ -12,16 +12,18 @@
                 <SquareF v-if="figure.type === figuresTypes().square">{{figure.weight}}</SquareF>
             </Position>
 
-            <Position
-                    v-for="figure in userFiguresOnEarth"
-                    v-bind:key="figure.created.toISOString()"
-                    v-bind:positionX="figure.positionX"
-                    v-bind:created="figure.created"
-            >
-                <CircleF v-if="figure.type === figuresTypes().circle">{{figure.weight}}</CircleF>
-                <TriangleF v-if="figure.type === figuresTypes().triangle">{{figure.weight}}</TriangleF>
-                <SquareF v-if="figure.type === figuresTypes().square">{{figure.weight}}</SquareF>
-            </Position>
+            <div class="rotation left" :style="lineStyle">
+                <Position
+                        v-for="figure in userFiguresOnEarth"
+                        v-bind:key="figure.created.toISOString()"
+                        v-bind:positionX="figure.positionX"
+                        v-bind:created="figure.created"
+                >
+                    <CircleF v-if="figure.type === figuresTypes().circle">{{figure.weight}}</CircleF>
+                    <TriangleF v-if="figure.type === figuresTypes().triangle">{{figure.weight}}</TriangleF>
+                    <SquareF v-if="figure.type === figuresTypes().square">{{figure.weight}}</SquareF>
+                </Position>
+            </div>
         </div>
 
         <div class="wrapper-blocks">
@@ -36,16 +38,18 @@
                 <SquareF v-if="figure.type === figuresTypes().square">{{figure.weight}}</SquareF>
             </Position>
 
-            <Position
-                v-for="figure in figuresOnEarth"
-                v-bind:key="figure.created.toISOString()"
-                v-bind:positionX="figure.positionX"
-                v-bind:created="figure.created"
-            >
-                <CircleF v-if="figure.type === figuresTypes().circle">{{figure.weight}}</CircleF>
-                <TriangleF v-if="figure.type === figuresTypes().triangle">{{figure.weight}}</TriangleF>
-                <SquareF v-if="figure.type === figuresTypes().square">{{figure.weight}}</SquareF>
-            </Position>
+            <div class="rotation right" :style="lineStyle">
+                <Position
+                    v-for="figure in figuresOnEarth"
+                    v-bind:key="figure.created.toISOString()"
+                    v-bind:positionX="figure.positionX"
+                    v-bind:created="figure.created"
+                >
+                    <CircleF v-if="figure.type === figuresTypes().circle">{{figure.weight}}</CircleF>
+                    <TriangleF v-if="figure.type === figuresTypes().triangle">{{figure.weight}}</TriangleF>
+                    <SquareF v-if="figure.type === figuresTypes().square">{{figure.weight}}</SquareF>
+                </Position>
+            </div>
 
         </div>
     </div>
@@ -99,6 +103,13 @@
             },
             gameStatus () {
                 return this.$store.state.gameStatus
+            },
+            lineStyle () {
+                const deg = this.$store.getters.angle;
+
+                return `
+                    transform: rotate(${-deg}deg)
+                `;
             }
         },
     }
@@ -112,8 +123,23 @@
         height: 525px;
     }
     .wrapper-user-blocks {
-        position: absolute;right: 50%;
+        position: absolute;
+        right: 50%;
         width: 45%;
         height: 525px;
+    }
+    .rotation {
+        position: absolute;
+        left: 0;
+        bottom: 2px;
+        width: 100%;
+        height: 525px;
+        transition: all 2s ease-in 0s;
+    }
+    .rotation.left {
+        transform-origin: bottom right;
+    }
+    .rotation.right {
+        transform-origin: bottom left;
     }
 </style>

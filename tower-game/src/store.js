@@ -53,7 +53,7 @@ export default new Vuex.Store({
     },
     actions: {
         changeGameStatus: (context, payload) => {
-            context.commit('changeGameStatus', payload)
+            context.commit('changeGameStatus', payload, )
         },
     }
 })
@@ -105,6 +105,7 @@ function changeGameStatus(state, newStatus) {
         clearTimeout(state.resumeTimeout);
         state.figures = [];
         state.userFigures = [];
+        state.angle = 0;
     }
 
     state.gameStatus = newStatus;
@@ -118,6 +119,23 @@ function setTimer(state) {
 }
 
 function addFigures(state) {
+    // check for game over by weight
+
+    let [F1, F2] = [10, 10];
+    const MAGIC_PHYSICS = 2.25;
+
+    // check for game over by angle
+    // very suspicious physics, yes
+    state.userFigures.forEach((figure) => {
+        F1 += Math.abs(figure.positionX - 100) / 100 * figure.weight;
+    });
+
+    state.figures.forEach((figure) => {
+        F2 += figure.positionX / 100 * figure.weight;
+    });
+
+    state.angle = (F1 - F2) * MAGIC_PHYSICS;
+
     const userFigure = generateNewFigure();
 
     state.userFigures.push(userFigure);
@@ -133,4 +151,3 @@ function generateNewFigure() {
         positionX: randomInteger(1, 100)
     }
 }
-
