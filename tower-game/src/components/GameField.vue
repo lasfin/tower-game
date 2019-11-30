@@ -1,6 +1,6 @@
 <template>
     <div class="field">
-
+        <slot></slot>
     </div>
 </template>
 
@@ -17,5 +17,6 @@
         background: #fff;
         border-radius: 5px;
         margin: 10px auto;
+        position: relative;
     }
 </style>

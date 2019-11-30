@@ -1,19 +1,23 @@
 <template>
   <div id="app">
     <GameControls />
-    <GameField />
+    <GameField>
+      <Tower/>
+    </GameField>
   </div>
 </template>
 
 <script>
 import GameControls from './components/GameControls.vue'
 import GameField from './components/GameField.vue'
+import Tower from './components/Tower.vue'
 
 export default {
   name: 'app',
   components: {
     GameField,
-    GameControls
+    GameControls,
+    Tower
   }
 }
 </script>
